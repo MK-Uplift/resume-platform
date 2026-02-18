@@ -1,0 +1,57 @@
+name: Deploy to AWS
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  DOTNET_VERSION: '7.0.x'
+  AWS_REGION: 'ap-southeast-4'
+  S3_BUCKET: 'mk-uplift-resume-web'
+  CLOUDFRONT_DISTRIBUTION_ID: 'E1XRRA7RBLQI4C'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore dependencies
+        run: dotnet restore Resume.Web/Resume.Web.csproj
+
+      - name: Build
+        run: dotnet build Resume.Web/Resume.Web.csproj -c Release --no-restore
+
+      - name: Publish
+        run: dotnet publish Resume.Web/Resume.Web.csproj -c Release -o publish --no-build
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Deploy to S3
+        run: |
+          aws s3 sync publish/wwwroot/ s3://${{ env.S3_BUCKET }}/ --delete
+
+      - name: Invalidate CloudFront cache
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ env.CLOUDFRONT_DISTRIBUTION_ID }} \
+            --paths "/*"
+
+      - name: Deployment complete
+        run: |
+          echo "🚀 Deployment successful!"
+          echo "Site URL: https://ddcfte7n5r9tt.cloudfront.net"
