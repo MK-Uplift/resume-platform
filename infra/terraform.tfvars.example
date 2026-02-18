@@ -1,0 +1,3 @@
+aws_region  = "us-east-1"
+bucket_name = "my-unique-bucket-name-12345"
+price_class = "PriceClass_100"
