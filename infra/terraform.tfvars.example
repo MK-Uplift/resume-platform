@@ -1,3 +1,10 @@
-aws_region  = "us-east-1"
+aws_region  = "ap-southeast-4"
 bucket_name = "my-unique-bucket-name-12345"
 price_class = "PriceClass_100"
+
+# RDS Configuration
+db_instance_class = "db.t3.micro"
+db_name           = "resume"
+db_username       = "postgres"
+db_password       = "Test123456"
+my_ip             = "147.161.212.203/32"  # Replace with your IP, get it from: curl ifconfig.me
