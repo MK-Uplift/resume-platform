@@ -198,6 +198,49 @@
         <span class="dot">•</span>
         <a class="link" href="https://github.com/MK-Uplift" target="_blank" rel="noopener">GitHub</a>
       </div>
+
+      @if (!string.IsNullOrEmpty(submitMessage))
+      {
+        <div class="@(submitSuccess ? "alert-success" : "alert-error")">
+          @submitMessage
+        </div>
+      }
+
+      <div class="contact-form">
+        <h3 class="h3">Or send me a message</h3>
+        <EditForm Model="@contactForm" OnValidSubmit="@HandleSubmit">
+          <DataAnnotationsValidator />
+          
+          <div class="form-group">
+            <label for="name">Name</label>
+            <InputText id="name" class="form-input" @bind-Value="contactForm.Name" placeholder="Your name" />
+            <ValidationMessage For="@(() => contactForm.Name)" />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <InputText id="email" class="form-input" @bind-Value="contactForm.Email" placeholder="your@email.com" />
+            <ValidationMessage For="@(() => contactForm.Email)" />
+          </div>
+
+          <div class="form-group">
+            <label for="message">Message</label>
+            <InputTextArea id="message" class="form-input" @bind-Value="contactForm.Message" placeholder="Your message..." rows="4" />
+            <ValidationMessage For="@(() => contactForm.Message)" />
+          </div>
+
+          <button type="submit" class="btn primary" disabled="@isSubmitting">
+            @if (isSubmitting)
+            {
+              <span>Sending...</span>
+            }
+            else
+            {
+              <span>Send Message</span>
+            }
+          </button>
+        </EditForm>
+      </div>
     </div>
   </section>
 
@@ -209,3 +252,58 @@
 
 </div>
 
+
+@code {
+  [Inject] private HttpClient Http { get; set; } = default!;
+
+  private ContactFormModel contactForm = new();
+  private bool isSubmitting = false;
+  private string submitMessage = string.Empty;
+  private bool submitSuccess = false;
+
+  private async Task HandleSubmit()
+  {
+    isSubmitting = true;
+    submitMessage = string.Empty;
+
+    try
+    {
+      var response = await Http.PostAsJsonAsync("api/messages", contactForm);
+      
+      if (response.IsSuccessStatusCode)
+      {
+        submitSuccess = true;
+        submitMessage = "✅ Message sent successfully! I'll get back to you soon.";
+        contactForm = new(); // Reset form
+      }
+      else
+      {
+        submitSuccess = false;
+        submitMessage = "❌ Failed to send message. Please try again or email me directly.";
+      }
+    }
+    catch (Exception ex)
+    {
+      submitSuccess = false;
+      submitMessage = $"❌ Error: {ex.Message}";
+    }
+    finally
+    {
+      isSubmitting = false;
+    }
+  }
+
+  public class ContactFormModel
+  {
+    [Required(ErrorMessage = "Name is required")]
+    public string Name { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "Email is required")]
+    [EmailAddress(ErrorMessage = "Invalid email address")]
+    public string Email { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "Message is required")]
+    [MinLength(10, ErrorMessage = "Message must be at least 10 characters")]
+    public string Message { get; set; } = string.Empty;
+  }
+}

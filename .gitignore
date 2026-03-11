@@ -26,6 +26,8 @@ bld/
 **/appsettings.*.json
 !**/appsettings.json
 !**/appsettings.Development.json
+!**/wwwroot/appsettings.json
+!**/wwwroot/appsettings.Production.json
 
 # Terraform
 .terraform/
@@ -53,4 +55,10 @@ terraform.tfvars
 
 # Secrets
 secrets.json
-appsettings.Production.json
+
+# Docker
+.dockerignore
+
+# Terraform plan files
+*.tfplan
+tfplan

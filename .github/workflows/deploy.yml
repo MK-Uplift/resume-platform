@@ -7,13 +7,18 @@ on:
   workflow_dispatch:
 
 env:
-  DOTNET_VERSION: '7.0.x'
+  DOTNET_WEB_VERSION: '7.0.x'
+  DOTNET_API_VERSION: '8.0.x'
   AWS_REGION: 'ap-southeast-4'
   S3_BUCKET: 'mk-uplift-resume-web'
   CLOUDFRONT_DISTRIBUTION_ID: 'E1XRRA7RBLQI4C'
+  ECR_REPOSITORY: 'resume-api'
+  ECS_CLUSTER: 'resume-cluster'
+  ECS_SERVICE: 'resume-api-service'
 
 jobs:
-  deploy:
+  deploy-web:
+    name: Deploy Frontend
     runs-on: ubuntu-latest
     
     steps:
@@ -23,7 +28,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+          dotnet-version: ${{ env.DOTNET_WEB_VERSION }}
 
       - name: Restore dependencies
         run: dotnet restore Resume.Web/Resume.Web.csproj
@@ -41,6 +46,22 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
+      - name: Get ALB URL
+        id: get-alb-url
+        run: |
+          ALB_DNS=$(aws elbv2 describe-load-balancers --names resume-api-alb --query 'LoadBalancers[0].DNSName' --output text 2>/dev/null || echo "")
+          if [ -z "$ALB_DNS" ]; then
+            echo "ALB not found, using placeholder"
+            echo "url=http://localhost:5082" >> $GITHUB_OUTPUT
+          else
+            echo "url=http://$ALB_DNS" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Update API URL in config
+        run: |
+          sed -i 's|API_URL_PLACEHOLDER|${{ steps.get-alb-url.outputs.url }}|g' publish/wwwroot/appsettings.Production.json
+          cat publish/wwwroot/appsettings.Production.json
+
       - name: Deploy to S3
         run: |
           aws s3 sync publish/wwwroot/ s3://${{ env.S3_BUCKET }}/ --delete
@@ -51,7 +72,67 @@ jobs:
             --distribution-id ${{ env.CLOUDFRONT_DISTRIBUTION_ID }} \
             --paths "/*"
 
-      - name: Deployment complete
+      - name: Frontend deployment complete
         run: |
-          echo "🚀 Deployment successful!"
+          echo "🚀 Frontend deployment successful!"
           echo "Site URL: https://ddcfte7n5r9tt.cloudfront.net"
+
+  deploy-api:
+    name: Deploy API
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Get ECR repository URI
+        id: ecr-uri
+        run: |
+          ECR_URI=$(aws ecr describe-repositories --repository-names ${{ env.ECR_REPOSITORY }} --query 'repositories[0].repositoryUri' --output text)
+          echo "uri=$ECR_URI" >> $GITHUB_OUTPUT
+
+      - name: Build Docker image
+        working-directory: Resume.Api
+        run: |
+          docker build -t ${{ steps.ecr-uri.outputs.uri }}:latest .
+          docker tag ${{ steps.ecr-uri.outputs.uri }}:latest ${{ steps.ecr-uri.outputs.uri }}:${{ github.sha }}
+
+      - name: Push Docker image to ECR
+        run: |
+          docker push ${{ steps.ecr-uri.outputs.uri }}:latest
+          docker push ${{ steps.ecr-uri.outputs.uri }}:${{ github.sha }}
+
+      - name: Update ECS service
+        run: |
+          aws ecs update-service \
+            --cluster ${{ env.ECS_CLUSTER }} \
+            --service ${{ env.ECS_SERVICE }} \
+            --force-new-deployment
+
+      - name: Wait for service to stabilize
+        run: |
+          aws ecs wait services-stable \
+            --cluster ${{ env.ECS_CLUSTER }} \
+            --services ${{ env.ECS_SERVICE }}
+
+      - name: Get ALB URL
+        id: alb-url
+        run: |
+          ALB_DNS=$(aws elbv2 describe-load-balancers --names resume-api-alb --query 'LoadBalancers[0].DNSName' --output text)
+          echo "url=http://$ALB_DNS" >> $GITHUB_OUTPUT
+
+      - name: API deployment complete
+        run: |
+          echo "🚀 API deployment successful!"
+          echo "API URL: ${{ steps.alb-url.outputs.url }}"
