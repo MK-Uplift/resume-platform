@@ -4,18 +4,14 @@ using Resume.Api.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add CORS
+// Add CORS - Allow all origins for testing (TODO: restrict in production)
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowBlazor", policy =>
     {
-        policy.WithOrigins(
-            "http://localhost:5000",
-            "https://localhost:5001",
-            "https://ddcfte7n5r9tt.cloudfront.net"
-        )
-        .AllowAnyMethod()
-        .AllowAnyHeader();
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
     });
 });
 
