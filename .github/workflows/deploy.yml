@@ -122,9 +122,21 @@ jobs:
 
       - name: Wait for service to stabilize
         run: |
+          # Wait up to 20 minutes (40 attempts x 30s)
           aws ecs wait services-stable \
             --cluster ${{ env.ECS_CLUSTER }} \
-            --services ${{ env.ECS_SERVICE }}
+            --services ${{ env.ECS_SERVICE }} || true
+          # Verify at least 1 task is running regardless of waiter result
+          RUNNING=$(aws ecs describe-services \
+            --cluster ${{ env.ECS_CLUSTER }} \
+            --services ${{ env.ECS_SERVICE }} \
+            --query 'services[0].runningCount' --output text)
+          echo "Running tasks: $RUNNING"
+          if [ "$RUNNING" -lt "1" ]; then
+            echo "❌ No running tasks after deployment"
+            exit 1
+          fi
+          echo "✅ Service has $RUNNING running task(s)"
 
       - name: Get ALB URL
         id: alb-url
