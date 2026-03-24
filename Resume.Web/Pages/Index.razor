@@ -1,309 +1,305 @@
 ﻿@page "/"
 
-<div class="page">
+<!-- HERO -->
+<section class="hero" id="about">
+    <div class="hero-badge">☁️ Open to opportunities in Melbourne, AU</div>
 
-  <!-- HERO -->
-  <section class="card hero">
-    <div class="hero-left">
-      <div class="badge">Cloud Engineer| Cloud Managed Services | Azure | AWS | Terraform | Kubernetes</div>
-      <h1 class="title">
-        Michael Li
-      </h1>
-      <p class="subtitle">
-        Cloud Engineer with experience supporting high-availability production environments primarily on
-        Microsoft Azure, with foundational exposure to AWS through certification and hands-on lab
-        environments. Strong focus on reliability engineering, incident response, infrastructure-as-code, and
-        observability.
-        Hands-on experience with Kubernetes (Amazon EKS), including cluster version upgrades and
-        operational maintenance, complemented by CKA and CKS certifications. Passionate about improving
-        system reliability, reducing operational toil through automation, and building scalable, resilient cloud
-        platforms aligned with SRE principles.
-      </p>
+    <h1 class="hero-title">
+        Cloud Engineer.<br />
+        <span class="highlight">Build. Deploy. Scale.</span>
+    </h1>
 
-      <div class="cta-row">
-        <a class="btn primary" href="assets/Michael-Li-CV.pdf" target="_blank" rel="noopener">
-          Download CV
+    <p class="hero-sub">
+        Specialising in Azure &amp; AWS infrastructure, Kubernetes operations, and reliability engineering.
+        Turning complex cloud platforms into stable, observable, automated systems.
+    </p>
+
+    <div class="hero-actions">
+        <a class="btn-primary" href="assets/Michael-Li-CV.pdf" target="_blank" rel="noopener">
+            Download CV →
         </a>
-        <a class="btn ghost" href="#contact">
-          Contact
+        <a class="btn-secondary" href="#contact">
+            Get in Touch
         </a>
-      </div>
-
-      <div class="meta">
-        <span>📍 Melbourne, AU</span>
-        <span class="dot">•</span>
-        <span>✅ Open to opportunities</span>
-        <span class="dot">•</span>
-        <span>☁️ Azure / AWS</span>
-      </div>
     </div>
 
-    <div class="hero-right">
-      <div class="stats">
-        <div class="stat">
-          <div class="stat-value">Cloud</div>
-          <div class="stat-label">Incident Response</div>
+    <div class="hero-stats">
+        <div>
+            <div class="hero-stat-value">Azure</div>
+            <div class="hero-stat-label">Production Support</div>
         </div>
-        <div class="stat">
-          <div class="stat-value">IaC</div>
-          <div class="stat-label">Terraform / GitOps-ready</div>
+        <div>
+            <div class="hero-stat-value">AWS</div>
+            <div class="hero-stat-label">ECS · RDS · CloudFront</div>
         </div>
-        <div class="stat">
-          <div class="stat-value">Obs</div>
-          <div class="stat-label">App Insights / Logs</div>
+        <div>
+            <div class="hero-stat-value">IaC</div>
+            <div class="hero-stat-label">Terraform · GitOps</div>
         </div>
-      </div>
-
-      <div class="pill-grid">
-        <span class="pill">Azure Functions</span>
-        <span class="pill">Logic Apps</span>
-        <span class="pill">App Insights</span>
-        <span class="pill">Azure Service Bus</span>
-        <span class="pill">Azure Storage</span>
-        <span class="pill">Terraform</span>
-        <span class="pill">AWS (basics)</span>
-        <span class="pill">CI/CD</span>
-      </div>
+        <div>
+            <div class="hero-stat-value">K8s</div>
+            <div class="hero-stat-label">CKA · CKS Certified</div>
+        </div>
     </div>
-  </section>
+</section>
 
-  <!-- HIGHLIGHTS -->
-  <section class="grid two">
-    <div class="card">
-      <h2 class="h2">What I do</h2>
-      <ul class="list">
-        <li><b>Production support</b>: troubleshoot incidents, reduce noisy alerts, improve MTTR.</li>
-        <li><b>Automation</b>: build fixes + runbooks + monitoring to prevent recurring issues.</li>
-        <li><b>Platform delivery</b>: infrastructure changes with Terraform and secure cloud patterns.</li>
-      </ul>
+<div class="divider"></div>
+
+<!-- WHAT I DO -->
+<section class="section">
+    <div class="section-label">What I Do</div>
+    <h2 class="section-title">Reliability. Delivery. Automation.</h2>
+    <p class="section-desc">
+        Focused on keeping production systems healthy, reducing toil, and shipping infrastructure changes safely.
+    </p>
+
+    <div class="cards-grid">
+        <div class="card">
+            <div class="card-icon">🔥</div>
+            <div class="card-title">Incident Response</div>
+            <div class="card-desc">
+                Troubleshoot production incidents, reduce noisy alerts, improve MTTR across Azure and AWS environments.
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-icon">⚙️</div>
+            <div class="card-title">Infrastructure as Code</div>
+            <div class="card-desc">
+                Build and maintain cloud infrastructure with Terraform. Secure patterns, change hygiene, and release safety.
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-icon">📊</div>
+            <div class="card-title">Observability</div>
+            <div class="card-desc">
+                App Insights, CloudWatch, log analytics, alert tuning, and runbooks to keep systems transparent and reliable.
+            </div>
+        </div>
     </div>
+</section>
 
-    <div class="card">
-      <h2 class="h2">What I’m building (this 30-day project)</h2>
-      <p class="p">
-        A full platform on AWS: Blazor WASM resume site + .NET API + PostgreSQL (RDS),
-        deployed with ECS Fargate and production-ready logging/monitoring.
-      </p>
-      <div class="tags">
-        <span class="tag">Blazor WASM</span>
-        <span class="tag">.NET 8</span>
-        <span class="tag">ECS Fargate</span>
-        <span class="tag">RDS Postgres</span>
-        <span class="tag">CloudWatch</span>
-      </div>
+<div class="divider"></div>
+
+<!-- SKILLS -->
+<section class="section" id="skills">
+    <div class="section-label">Core Skills</div>
+    <h2 class="section-title">A practical cloud toolkit.</h2>
+    <p class="section-desc">
+        Built through hands-on production work, certifications, and this 30-day AWS platform project.
+    </p>
+
+    <div class="skills-grid">
+        <div class="skill-card">
+            <div class="skill-card-title">Cloud & Platform</div>
+            <div class="chip-row">
+                <span class="chip">Azure PaaS</span>
+                <span class="chip">Azure IaaS</span>
+                <span class="chip">AWS ECS</span>
+                <span class="chip">AWS RDS</span>
+                <span class="chip">Networking</span>
+                <span class="chip">Identity</span>
+            </div>
+        </div>
+        <div class="skill-card">
+            <div class="skill-card-title">IaC & Delivery</div>
+            <div class="chip-row">
+                <span class="chip">Terraform</span>
+                <span class="chip">GitHub Actions</span>
+                <span class="chip">CI/CD</span>
+                <span class="chip">Docker</span>
+                <span class="chip">Release Safety</span>
+            </div>
+        </div>
+        <div class="skill-card">
+            <div class="skill-card-title">Ops & Observability</div>
+            <div class="chip-row">
+                <span class="chip">App Insights</span>
+                <span class="chip">CloudWatch</span>
+                <span class="chip">Log Analytics</span>
+                <span class="chip">Alert Tuning</span>
+                <span class="chip">RCA</span>
+            </div>
+        </div>
     </div>
-  </section>
+</section>
 
-  <!-- SKILLS -->
-  <section class="card">
-    <div class="section-head">
-      <h2 class="h2">Core skills</h2>
-      <p class="muted">A practical set focused on reliability, delivery, and secure operations.</p>
+<div class="divider"></div>
+
+<!-- PROJECTS -->
+<section class="section" id="projects">
+    <div class="section-label">Projects</div>
+    <h2 class="section-title">What I'm building.</h2>
+    <p class="section-desc">
+        Real infrastructure, real deployments — not just tutorials.
+    </p>
+
+    <div class="projects-grid">
+        <a class="project-card" href="https://github.com/MK-Uplift/resume-platform" target="_blank" rel="noopener">
+            <div class="project-badge">In Progress</div>
+            <div class="project-title">30-Day Cloud Platform</div>
+            <div class="project-desc">
+                Blazor WASM resume + .NET 8 API + PostgreSQL on RDS, deployed via ECS Fargate with CloudWatch monitoring, CI/CD pipeline, and SES email notifications.
+            </div>
+            <div class="project-tech">
+                <span>.NET 8</span><span>Blazor</span><span>ECS Fargate</span><span>Terraform</span><span>AWS</span>
+            </div>
+        </a>
+
+        <div class="project-card">
+            <div class="project-badge">Case Study</div>
+            <div class="project-title">Alert Noise Reduction</div>
+            <div class="project-desc">
+                Analysed high-volume production alerts, reviewed thresholds, and documented response playbooks to reduce distractions and improve signal quality.
+            </div>
+            <div class="project-tech">
+                <span>Monitoring</span><span>SLI/SLO</span><span>RCA</span><span>Runbooks</span>
+            </div>
+        </div>
+
+        <div class="project-card">
+            <div class="project-badge">Experience</div>
+            <div class="project-title">Integration Reliability</div>
+            <div class="project-desc">
+                Production incident handling for Logic Apps and Service Bus integrations, keeping critical business flows stable under load.
+            </div>
+            <div class="project-tech">
+                <span>Azure</span><span>Logic Apps</span><span>Service Bus</span><span>Automation</span>
+            </div>
+        </div>
     </div>
+</section>
 
-    <div class="grid three">
-      <div class="tile">
-        <div class="tile-title">Cloud & Platform</div>
-        <div class="chip-row">
-          <span class="chip">Azure PaaS</span>
-          <span class="chip">Azure IaaS</span>
-          <span class="chip">Networking</span>
-          <span class="chip">Identity</span>
-          <span class="chip">AWS Fundamentals</span>
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section class="section-sm" id="contact">
+    <div class="contact-section">
+        <div>
+            <div class="section-label">Get Started</div>
+            <h2 class="section-title">Ready to connect?</h2>
+            <p class="section-desc">
+                Tell me about the role or challenge you're working on. I'll get back to you promptly.
+            </p>
+
+            <div class="contact-email-row">
+                <div class="contact-email-icon">✉️</div>
+                <div>
+                    <div class="contact-email-label">Email directly</div>
+                    <div class="contact-email-value">michaelmk1122@gmail.com</div>
+                </div>
+            </div>
+
+            <div class="contact-links">
+                <a class="contact-link-btn" href="https://www.linkedin.com/in/-michael-li/" target="_blank" rel="noopener">
+                    LinkedIn ↗
+                </a>
+                <a class="contact-link-btn" href="https://github.com/MK-Uplift" target="_blank" rel="noopener">
+                    GitHub ↗
+                </a>
+            </div>
         </div>
-      </div>
 
-      <div class="tile">
-        <div class="tile-title">IaC & Delivery</div>
-        <div class="chip-row">
-          <span class="chip">Terraform</span>
-          <span class="chip">IaC patterns</span>
-          <span class="chip">CI/CD</span>
-          <span class="chip">Change hygiene</span>
-          <span class="chip">Release safety</span>
-        </div>
-      </div>
-
-      <div class="tile">
-        <div class="tile-title">Ops & Observability</div>
-        <div class="chip-row">
-          <span class="chip">App Insights</span>
-          <span class="chip">Log analytics</span>
-          <span class="chip">Alert tuning</span>
-          <span class="chip">Runbooks</span>
-          <span class="chip">Root cause analysis</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PROJECTS -->
-  <section class="card">
-    <div class="section-head">
-      <h2 class="h2">Projects</h2>
-      <p class="muted">Replace placeholders with your real repos as you go.</p>
-    </div>
-
-    <div class="grid three">
-      <a class="project" href="https://github.com/MK-Uplift/resume-platform" target="_blank" rel="noopener">
-        <div class="project-top">
-          <div class="project-title">30-Day Cloud Platform</div>
-          <div class="project-pill">In progress</div>
-        </div>
-        <p class="project-desc">
-          Blazor resume + .NET API + RDS Postgres, deployed via ECS Fargate with CloudWatch logging and CI/CD.
-        </p>
-        <div class="project-tech">
-          <span>.NET</span><span>Blazor</span><span>AWS</span><span>Postgres</span>
-        </div>
-      </a>
-
-      <div class="project">
-        <div class="project-top">
-          <div class="project-title">Alert Noise Reduction (Ops)</div>
-          <div class="project-pill">Case study</div>
-        </div>
-        <p class="project-desc">
-          Analyzed high-volume alerts, reviewed thresholds, and documented response playbooks to reduce distractions and improve signal quality.
-        </p>
-        <div class="project-tech">
-          <span>Monitoring</span><span>SLI/SLO</span><span>RCA</span><span>Runbooks</span>
-        </div>
-      </div>
-
-      <div class="project">
-        <div class="project-top">
-          <div class="project-title">Integration Reliability</div>
-          <div class="project-pill">Experience</div>
-        </div>
-        <p class="project-desc">
-          Worked with Logic Apps / Service Bus style integrations and production incident handling to keep critical flows stable.
-        </p>
-        <div class="project-tech">
-          <span>Integration</span><span>Azure</span><span>Automation</span><span>Support</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section id="contact" class="card contact">
-    <div>
-      <h2 class="h2">Contact</h2>
-      <p class="muted">Want to chat about cloud platforms, operations, or delivery? Reach out:</p>
-      <div class="contact-row">
-        <a class="link" href="mailto:michaelmk1122@gmail.com">michaelmk1122@gmail.com</a>
-        <span class="dot">•</span>
-        <a class="link" href="https://www.linkedin.com/in/-michael-li/" target="_blank" rel="noopener">LinkedIn</a>
-        <span class="dot">•</span>
-        <a class="link" href="https://github.com/MK-Uplift" target="_blank" rel="noopener">GitHub</a>
-      </div>
-
-      @if (!string.IsNullOrEmpty(submitMessage))
-      {
-        <div class="@(submitSuccess ? "alert-success" : "alert-error")">
-          @submitMessage
-        </div>
-      }
-
-      <div class="contact-form">
-        <h3 class="h3">Or send me a message</h3>
-        <EditForm Model="@contactForm" OnValidSubmit="@HandleSubmit">
-          <DataAnnotationsValidator />
-          
-          <div class="form-group">
-            <label for="name">Name</label>
-            <InputText id="name" class="form-input" @bind-Value="contactForm.Name" placeholder="Your name" />
-            <ValidationMessage For="@(() => contactForm.Name)" />
-          </div>
-
-          <div class="form-group">
-            <label for="email">Email</label>
-            <InputText id="email" class="form-input" @bind-Value="contactForm.Email" placeholder="your@email.com" />
-            <ValidationMessage For="@(() => contactForm.Email)" />
-          </div>
-
-          <div class="form-group">
-            <label for="message">Message</label>
-            <InputTextArea id="message" class="form-input" @bind-Value="contactForm.Message" placeholder="Your message..." rows="4" />
-            <ValidationMessage For="@(() => contactForm.Message)" />
-          </div>
-
-          <button type="submit" class="btn primary" disabled="@isSubmitting">
-            @if (isSubmitting)
+        <div class="contact-form">
+            @if (!string.IsNullOrEmpty(submitMessage))
             {
-              <span>Sending...</span>
+                <div class="@(submitSuccess ? "alert-success" : "alert-error")">
+                    @submitMessage
+                </div>
+            }
+
+            <EditForm Model="@contactForm" OnValidSubmit="@HandleSubmit">
+                <DataAnnotationsValidator />
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <InputText class="form-input" @bind-Value="contactForm.Name" placeholder="Your name" />
+                        <ValidationMessage For="@(() => contactForm.Name)" />
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <InputText class="form-input" @bind-Value="contactForm.Email" placeholder="you@company.com" />
+                        <ValidationMessage For="@(() => contactForm.Email)" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Message</label>
+                    <InputTextArea class="form-input" @bind-Value="contactForm.Message" placeholder="Tell me about the role or project..." rows="5" />
+                    <ValidationMessage For="@(() => contactForm.Message)" />
+                </div>
+
+                <button type="submit" class="btn-submit" disabled="@isSubmitting">
+                    @if (isSubmitting)
+                    {
+                        <span>Sending...</span>
+                    }
+                    else
+                    {
+                        <span>Send Message ↗</span>
+                    }
+                </button>
+            </EditForm>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="footer-logo">Michael<span>.</span></div>
+    <div>© @DateTime.Now.Year Michael Li · Built on AWS</div>
+</footer>
+
+@code {
+    [Inject] private HttpClient Http { get; set; } = default!;
+
+    private ContactFormModel contactForm = new();
+    private bool isSubmitting = false;
+    private string submitMessage = string.Empty;
+    private bool submitSuccess = false;
+
+    private async Task HandleSubmit()
+    {
+        isSubmitting = true;
+        submitMessage = string.Empty;
+
+        try
+        {
+            var response = await Http.PostAsJsonAsync("api/messages", contactForm);
+
+            if (response.IsSuccessStatusCode)
+            {
+                submitSuccess = true;
+                submitMessage = "✅ Message sent! I'll get back to you soon.";
+                contactForm = new();
             }
             else
             {
-              <span>Send Message</span>
+                submitSuccess = false;
+                submitMessage = "❌ Failed to send. Please email me directly.";
             }
-          </button>
-        </EditForm>
-      </div>
-    </div>
-  </section>
-
-  <footer class="footer">
-    <span>© @DateTime.Now.Year Michael Li</span>
-    <span class="dot">•</span>
-    <span>Built with Blazor WebAssembly</span>
-  </footer>
-
-</div>
-
-
-@code {
-  [Inject] private HttpClient Http { get; set; } = default!;
-
-  private ContactFormModel contactForm = new();
-  private bool isSubmitting = false;
-  private string submitMessage = string.Empty;
-  private bool submitSuccess = false;
-
-  private async Task HandleSubmit()
-  {
-    isSubmitting = true;
-    submitMessage = string.Empty;
-
-    try
-    {
-      var response = await Http.PostAsJsonAsync("api/messages", contactForm);
-      
-      if (response.IsSuccessStatusCode)
-      {
-        submitSuccess = true;
-        submitMessage = "✅ Message sent successfully! I'll get back to you soon.";
-        contactForm = new(); // Reset form
-      }
-      else
-      {
-        submitSuccess = false;
-        submitMessage = "❌ Failed to send message. Please try again or email me directly.";
-      }
+        }
+        catch (Exception ex)
+        {
+            submitSuccess = false;
+            submitMessage = $"❌ Error: {ex.Message}";
+        }
+        finally
+        {
+            isSubmitting = false;
+        }
     }
-    catch (Exception ex)
+
+    public class ContactFormModel
     {
-      submitSuccess = false;
-      submitMessage = $"❌ Error: {ex.Message}";
+        [Required(ErrorMessage = "Name is required")]
+        public string Name { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid email")]
+        public string Email { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Message is required")]
+        [MinLength(10, ErrorMessage = "At least 10 characters")]
+        public string Message { get; set; } = string.Empty;
     }
-    finally
-    {
-      isSubmitting = false;
-    }
-  }
-
-  public class ContactFormModel
-  {
-    [Required(ErrorMessage = "Name is required")]
-    public string Name { get; set; } = string.Empty;
-
-    [Required(ErrorMessage = "Email is required")]
-    [EmailAddress(ErrorMessage = "Invalid email address")]
-    public string Email { get; set; } = string.Empty;
-
-    [Required(ErrorMessage = "Message is required")]
-    [MinLength(10, ErrorMessage = "Message must be at least 10 characters")]
-    public string Message { get; set; } = string.Empty;
-  }
 }
