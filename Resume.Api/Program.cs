@@ -32,7 +32,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("AllowBlazor");
-app.UseHttpsRedirection();
+
+// Only use HTTPS redirection outside of ECS/container environments
+if (!app.Environment.IsProduction())
+{
+    app.UseHttpsRedirection();
+}
 
 // Health check endpoint
 app.MapGet("/health", () => Results.Ok(new { status = "ok" }))
