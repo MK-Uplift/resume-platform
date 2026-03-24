@@ -46,22 +46,6 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Get ALB URL
-        id: get-alb-url
-        run: |
-          ALB_DNS=$(aws elbv2 describe-load-balancers --names resume-api-alb --query 'LoadBalancers[0].DNSName' --output text 2>/dev/null || echo "")
-          if [ -z "$ALB_DNS" ]; then
-            echo "ALB not found, using placeholder"
-            echo "url=http://localhost:5082" >> $GITHUB_OUTPUT
-          else
-            echo "url=http://$ALB_DNS" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Update API URL in config
-        run: |
-          sed -i 's|API_URL_PLACEHOLDER|${{ steps.get-alb-url.outputs.url }}|g' publish/wwwroot/appsettings.Production.json
-          cat publish/wwwroot/appsettings.Production.json
-
       - name: Deploy to S3
         run: |
           aws s3 sync publish/wwwroot/ s3://${{ env.S3_BUCKET }}/ --delete
@@ -113,11 +97,22 @@ jobs:
           docker push ${{ steps.ecr-uri.outputs.uri }}:latest
           docker push ${{ steps.ecr-uri.outputs.uri }}:${{ github.sha }}
 
+      - name: Get latest task definition
+        id: get-task-def
+        run: |
+          TASK_DEF_ARN=$(aws ecs describe-services \
+            --cluster ${{ env.ECS_CLUSTER }} \
+            --services ${{ env.ECS_SERVICE }} \
+            --region ${{ env.AWS_REGION }} \
+            --query 'services[0].taskDefinition' \
+            --output text)
+          echo "arn=$TASK_DEF_ARN" >> $GITHUB_OUTPUT
+
       - name: Update ECS task definition with new image
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition-arn: arn:aws:ecs:ap-southeast-4:923485827409:task-definition/resume-api:1
+          task-definition-arn: ${{ steps.get-task-def.outputs.arn }}
           container-name: resume-api
           image: ${{ steps.ecr-uri.outputs.uri }}:${{ github.sha }}
 
