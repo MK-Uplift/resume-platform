@@ -135,6 +135,13 @@ main { flex: 1; }
   color: var(--text);
 }
 
+.hero-greeting .highlight {
+  background: linear-gradient(135deg, var(--pink), #ff6ec7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 .hero-photo-wrap {
   width: 280px;
   height: 280px;
