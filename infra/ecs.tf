@@ -165,6 +165,11 @@ resource "aws_ecs_service" "api" {
   desired_count   = 1
   launch_type     = "FARGATE"
 
+  # Ignore task definition changes - managed by GitHub Actions deployments
+  lifecycle {
+    ignore_changes = [task_definition]
+  }
+
   network_configuration {
     subnets          = data.aws_subnets.default.ids
     security_groups  = [aws_security_group.ecs_tasks.id]
