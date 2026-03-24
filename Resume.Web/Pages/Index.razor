@@ -22,7 +22,7 @@
                 <a class="btn-primary" href="assets/Michael-Li-CV.pdf" target="_blank" rel="noopener">
                     Download CV →
                 </a>
-                <a class="btn-secondary" href="#contact">
+                <a class="btn-secondary" href="#contact-form">
                     Get in Touch
                 </a>
             </div>
@@ -211,7 +211,7 @@
             </div>
         </div>
 
-        <div class="contact-form">
+        <div class="contact-form" id="contact-form">
             @if (!string.IsNullOrEmpty(submitMessage))
             {
                 <div class="@(submitSuccess ? "alert-success" : "alert-error")">
