@@ -22,9 +22,9 @@
                 <a class="btn-primary" href="assets/Michael-Li-CV.pdf" target="_blank" rel="noopener">
                     Download CV →
                 </a>
-                <a class="btn-secondary" href="#contact-form">
+                <button class="btn-secondary" @onclick="ScrollToContact">
                     Get in Touch
-                </a>
+                </button>
             </div>
         </div>
 
@@ -263,6 +263,12 @@
 
 @code {
     [Inject] private HttpClient Http { get; set; } = default!;
+    [Inject] private IJSRuntime JS { get; set; } = default!;
+
+    private async Task ScrollToContact()
+    {
+        await JS.InvokeVoidAsync("scrollToElement", "contact-form");
+    }
 
     private ContactFormModel contactForm = new();
     private bool isSubmitting = false;
