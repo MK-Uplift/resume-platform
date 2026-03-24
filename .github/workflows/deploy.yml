@@ -113,30 +113,21 @@ jobs:
           docker push ${{ steps.ecr-uri.outputs.uri }}:latest
           docker push ${{ steps.ecr-uri.outputs.uri }}:${{ github.sha }}
 
-      - name: Update ECS service
-        run: |
-          aws ecs update-service \
-            --cluster ${{ env.ECS_CLUSTER }} \
-            --service ${{ env.ECS_SERVICE }} \
-            --force-new-deployment
+      - name: Update ECS task definition with new image
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition-arn: arn:aws:ecs:ap-southeast-4:923485827409:task-definition/resume-api:1
+          container-name: resume-api
+          image: ${{ steps.ecr-uri.outputs.uri }}:${{ github.sha }}
 
-      - name: Wait for service to stabilize
-        run: |
-          # Wait up to 20 minutes (40 attempts x 30s)
-          aws ecs wait services-stable \
-            --cluster ${{ env.ECS_CLUSTER }} \
-            --services ${{ env.ECS_SERVICE }} || true
-          # Verify at least 1 task is running regardless of waiter result
-          RUNNING=$(aws ecs describe-services \
-            --cluster ${{ env.ECS_CLUSTER }} \
-            --services ${{ env.ECS_SERVICE }} \
-            --query 'services[0].runningCount' --output text)
-          echo "Running tasks: $RUNNING"
-          if [ "$RUNNING" -lt "1" ]; then
-            echo "❌ No running tasks after deployment"
-            exit 1
-          fi
-          echo "✅ Service has $RUNNING running task(s)"
+      - name: Deploy new task definition to ECS
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ${{ env.ECS_SERVICE }}
+          cluster: ${{ env.ECS_CLUSTER }}
+          wait-for-service-stability: false
 
       - name: Get ALB URL
         id: alb-url
