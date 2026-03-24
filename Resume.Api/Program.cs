@@ -19,7 +19,8 @@ builder.Services.AddCors(options =>
 });
 
 // Add SES client (Sydney region - SES not available in ap-southeast-4)
-builder.Services.AddSingleton<IAmazonSimpleEmailService>(
+// Use no-arg constructor so it picks up ECS task role credentials automatically
+builder.Services.AddSingleton<IAmazonSimpleEmailService>(_ =>
     new AmazonSimpleEmailServiceClient(RegionEndpoint.APSoutheast2));
 
 // Add DbContext
@@ -57,7 +58,7 @@ app.MapGet("/api/messages", async (AppDbContext db) =>
 .WithOpenApi();
 
 // Post a new message
-app.MapPost("/api/messages", async (ContactMessage message, AppDbContext db, IAmazonSimpleEmailService ses) =>
+app.MapPost("/api/messages", async (ContactMessage message, AppDbContext db, IAmazonSimpleEmailService ses, ILogger<Program> logger) =>
 {
     message.CreatedAt = DateTime.UtcNow;
     db.Messages.Add(message);
@@ -66,6 +67,7 @@ app.MapPost("/api/messages", async (ContactMessage message, AppDbContext db, IAm
     // Send email notification via SES
     try
     {
+        logger.LogInformation("Sending SES email for message from {Name}", message.Name);
         await ses.SendEmailAsync(new SendEmailRequest
         {
             Source = "mkuplift11@gmail.com",
@@ -85,11 +87,11 @@ app.MapPost("/api/messages", async (ContactMessage message, AppDbContext db, IAm
                 }
             }
         });
+        logger.LogInformation("SES email sent successfully for {Name}", message.Name);
     }
     catch (Exception ex)
     {
-        // Log but don't fail the request if email fails
-        app.Logger.LogWarning("SES email failed: {Error}", ex.Message);
+        logger.LogWarning("SES email failed: {Error} | StackTrace: {Stack}", ex.Message, ex.StackTrace);
     }
 
     return Results.Created($"/api/messages/{message.Id}", message);
