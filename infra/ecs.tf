@@ -66,6 +66,21 @@ resource "aws_iam_role" "ecs_task" {
   })
 }
 
+# Allow ECS task to send emails via SES (Sydney region)
+resource "aws_iam_role_policy" "ecs_ses_access" {
+  name = "ecs-ses-access"
+  role = aws_iam_role.ecs_task.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect   = "Allow"
+      Action   = ["ses:SendEmail", "ses:SendRawEmail"]
+      Resource = "*"
+    }]
+  })
+}
+
 # Security Group for ECS Tasks
 resource "aws_security_group" "ecs_tasks" {
   name        = "resume-ecs-tasks-sg"

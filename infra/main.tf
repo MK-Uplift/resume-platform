@@ -20,6 +20,13 @@ provider "aws" {
   profile = var.aws_profile
 }
 
+# SES provider - SES not available in ap-southeast-4, use Sydney
+provider "aws" {
+  alias   = "ses"
+  region  = "ap-southeast-2"
+  profile = var.aws_profile
+}
+
 # S3 Bucket
 resource "aws_s3_bucket" "website" {
   bucket = var.bucket_name
