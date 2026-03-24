@@ -109,12 +109,32 @@ jobs:
           echo "arn=$TASK_DEF_ARN" >> $GITHUB_OUTPUT
 
       - name: Update ECS task definition with new image
-        id: task-def
+        id: task-def-render
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition-arn: ${{ steps.get-task-def.outputs.arn }}
           container-name: resume-api
           image: ${{ steps.ecr-uri.outputs.uri }}:${{ github.sha }}
+
+      - name: Ensure health check uses curl
+        id: task-def
+        run: |
+          python3 -c "
+          import json
+          with open('${{ steps.task-def-render.outputs.task-definition }}') as f:
+              td = json.load(f)
+          td['containerDefinitions'][0]['healthCheck'] = {
+              'command': ['CMD-SHELL', 'curl -f http://localhost:8080/health || exit 1'],
+              'interval': 30,
+              'timeout': 5,
+              'retries': 3,
+              'startPeriod': 60
+          }
+          out = '/tmp/taskdef-final.json'
+          with open(out, 'w') as f:
+              json.dump(td, f)
+          print(f'task-definition={out}')
+          " >> $GITHUB_OUTPUT
 
       - name: Deploy new task definition to ECS
         uses: aws-actions/amazon-ecs-deploy-task-definition@v2
