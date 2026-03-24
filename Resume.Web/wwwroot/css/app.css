@@ -109,10 +109,47 @@ main { flex: 1; }
 
 /* ── Hero ── */
 .hero {
-  text-align: center;
-  padding: 100px 40px 80px;
-  max-width: 900px;
+  max-width: 1100px;
   margin: 0 auto;
+  padding: 80px 40px 60px;
+}
+
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 60px;
+  align-items: center;
+  margin-bottom: 60px;
+}
+
+.hero-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.hero-greeting {
+  font-size: clamp(22px, 3vw, 30px);
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+
+.hero-photo-wrap {
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  border: 3px solid var(--pink);
+  box-shadow: 0 0 40px var(--pink-glow), 0 0 80px rgba(233,30,140,.1);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.hero-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
 }
 
 .hero-badge {
@@ -126,7 +163,7 @@ main { flex: 1; }
   color: var(--pink);
   font-size: 13px;
   font-weight: 500;
-  margin-bottom: 32px;
+  margin-bottom: 20px;
 }
 
 .hero-badge::before {
@@ -137,11 +174,11 @@ main { flex: 1; }
 }
 
 .hero-title {
-  font-size: clamp(48px, 7vw, 80px);
+  font-size: clamp(36px, 5vw, 60px);
   font-weight: 900;
   line-height: 1.05;
   letter-spacing: -2px;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .hero-title .highlight {
@@ -152,19 +189,18 @@ main { flex: 1; }
 }
 
 .hero-sub {
-  font-size: 17px;
+  font-size: 16px;
   color: var(--muted);
-  max-width: 600px;
-  margin: 0 auto 40px;
+  max-width: 520px;
+  margin: 0 0 32px;
   line-height: 1.7;
 }
 
 .hero-actions {
   display: flex;
   gap: 12px;
-  justify-content: center;
+  justify-content: flex-start;
   flex-wrap: wrap;
-  margin-bottom: 60px;
 }
 
 .btn-primary {
@@ -210,7 +246,7 @@ main { flex: 1; }
 
 .hero-stats {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 48px;
   flex-wrap: wrap;
   padding-top: 40px;
@@ -645,7 +681,10 @@ textarea.form-input {
   .navbar { padding: 0 20px; }
   .navbar-links { display: none; }
   .section, .section-sm { padding: 60px 20px; }
-  .hero { padding: 80px 20px 60px; }
+  .hero { padding: 60px 20px 40px; }
+  .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+  .hero-right { display: flex; justify-content: center; }
+  .hero-photo-wrap { width: 200px; height: 200px; }
   .cards-grid, .skills-grid, .projects-grid { grid-template-columns: 1fr; }
   .contact-section { grid-template-columns: 1fr; gap: 40px; }
   .form-row { grid-template-columns: 1fr; }
